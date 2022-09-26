@@ -1,56 +1,72 @@
 class School{ 
-    private alumnos : Alumno[];
-    private matricular : boolean;
-    private expulsar : boolean;
-    private profesores : Profesor[];
-    private contratar: boolean;
-    private despedir : boolean;
+    private alumnos : Student[];
+    private profesores : Professor[];
+
     //constructor
-    constructor(pAlumnos:Alumno[],pMatricular:boolean,pExpulsar:boolean,pProfesor:Profesor[],pContratarProfesor:boolean,pDespedirProfesor:boolean){
+    constructor(pAlumnos:Student[],pProfesor:Professor[]){
         this.alumnos = pAlumnos;
-        this.matricular = pMatricular;
-        this.expulsar = pExpulsar;
-        this.profesores = pProfesor;
-        this.contratar = pContratarProfesor; 
-        this.despedir = pDespedirProfesor;   
+        this.profesores = pProfesor;         
     }
     //metodos
-    matricularAlumno(pAlumno:Alumno):void{
-        this.alumnos.push(pAlumno);
+     contrataProfesor(pProfesor):void{
+        this.profesores.push(pProfesor);
+        console.log("Contratar Profesor " + pProfesor);
     }
-    expulsarAlumno(pAlumno:Alumno):void{
-        for(let i : number = 0; i < this.alumnos.length; i++){
-            if(pAlumno === this.alumnos[i]){
-                this.alumnos.splice(i,1);
+    despedirProfesor(pProfesor):void{
+        for(let i:number=0; i<this.profesores.length; i++){
+            if(pProfesor.getApellido() === this.profesores[i].getApellido()){
+                this.profesores.splice(i,1);
+                console.log("Despedir profesor " + pProfesor.getApellido());
+            }else{
+                console.log("sin definir");
             }
         }
     }
-    contratarProfesor(pProfesores:Profesor):void{
-        this.profesores.push(pProfesores);
-        console.log("contratar");
+
+     matricularAlumno(pAlumno):void{
+        this.alumnos.push(pAlumno);
+        console.log("matricular Alumno");
     }
-    
-    despedirProfesor(pProfesor:Profesor):void{
-        for(let i : number = 0; i < this.profesores.length; i++){
-        if(pProfesor === this.profesores[i]){
-            this.profesores.splice(i,1);
-            console.log("despedir ");
+     expulsarAlumno(pAlumno):void{
+        for(let i:number=0;i<this.alumnos.length;i++){
+            if(pAlumno.getNombre() === this.alumnos[i].getNombre()){
+                this.alumnos.splice(i,1);
+                console.log("expulsar Alumno " + pAlumno);
+            }else{
+                console.log("sin definir");
+            }
         }
+    }
+  
 }
 
-class Profesor{
+class Professor{
     private apellido : string;
     private presencias : string;
-    private alumno: Alumno[];
+    private alumno: Student[];
     
-    constructor(pApellido:string,pPrensencias:string,pAlumno:Alumno[]){
+    constructor(pApellido:string,pPrensencias:string,pAlumno:Student[]){
         this.apellido = pApellido;
         this.presencias = pPrensencias;
         this.alumno = pAlumno;
     }   
+    public setApellido(pApellido):void{
+        this.apellido = pApellido;
+    }
+    
+    public getApellido():string{
+        return this.apellido;
+    }
+    public setPresencias(pPrensencias):void{
+        this.apellido = pPrensencias;
+    }
+    
+    public getPresencias():string{
+        return this.presencias;
+    }
 }
 
-class Alumno{
+class Student{
     private nombre : string;
     private nota1 : number;
     private nota2 : number;
@@ -62,7 +78,23 @@ class Alumno{
         this.nota2 = pNota2;
         this.nota3 = pNota3;
     }
-        
+    public getNombre():string{
+        return this.nombre;
+    }
+    public setNombre(pNombre):void{
+        this.nombre = pNombre;
+    }
+    
+     setNotaA(pNota1:number):void{
+        this.nota1 =pNota1;
+    }
+    setNotaB(pNota2:number):void{
+        this.nota2 =pNota2;
+    }
+    setNotaC(pNota3:number):void{
+        this.nota3 =pNota3;
+    }
+
     notaA():string{
         if(this.nota1 > 7){
             return "Aprobado";
@@ -86,26 +118,31 @@ class Alumno{
     }    
 }
 
- let alumno1 = new Alumno("Juan Perez",7,7,8);
- let alumno2 = new Alumno("Francisco Ibarra",2,3,5);
- let alumno3 = new Alumno("Pedro Liz",2,6,7);
- let alumno4 = new Alumno("Ana Gomez",4,7,8);
- let alumno5 = new Alumno("Maria Roca",7,8,8);
+ let alumno1 = new Student("Juan Perez",7,7,8);
+ let alumno2 = new Student("Franco Ibarra",2,3,5);
+ let alumno3 = new Student("Pedro Liz",2,6,7);
+ let alumno4 = new Student("Ana Gomez",4,7,8);
+ let alumno5 = new Student("Maria Roca",7,8,8);
 
- let alumTotal : Alumno[] = [alumno1,alumno2,alumno3,alumno4,alumno5];
+ let alumTotal : Student[] = [alumno1,alumno2,alumno3,alumno4,alumno5];
 
- let profesor1 = new Profesor("ABAL","P",alumTotal);
- let profesor2 = new Profesor("PIRIZ","P",alumTotal);
- let profesor3 = new Profesor("ANDRADA","A",alumTotal);
- let profesor4 = new Profesor("POMAR","P",alumTotal);
- let profesor5 = new Profesor("PARISIO","P",alumTotal);
+// console.log(alumno4);
+// alumno4.notaA();
 
- let profesores : Profesor[] = [profesor1,profesor2,profesor3,profesor4,profesor5];
- //let escuela1 = new Escuela(alumno1,true,false,profesor1,true,false);
- //let escuela2 = new Escuela(alumno2,false,true,profesor2,true,false);
- //let escuela3 = new Escuela(alumno3,false,true,profesor3,false,true);
- //let escuela4 = new Escuela(alumno4,false,true,profesor4,true,false);
- //let escuela5 = new Escuela(alumno5,true,false,profesor5,true,false);   
+ let profesor1 = new Professor("ABAL","P",alumTotal);
+ let profesor2 = new Professor("PIRIZ","P",alumTotal);
+ let profesor3 = new Professor("ANDRADA","A",alumTotal);
+ let profesor4 = new Professor("POMAR","P",alumTotal);
+ let profesor5 = new Professor("PARISIO","P",alumTotal);
+
+ let profesores : Professor[] = [profesor1,profesor2,profesor3,profesor4,profesor5];
  
- let escuela : School = new School(alumTotal,undefined,undefined,profesores,undefined,undefined);
+ //console.log(profesor1);
+ //profesor3.getApellido();
+
+ let escuela : School = new School(alumTotal,profesores);
+
+ console.table(escuela);
  console.log(escuela);
+ escuela.contrataProfesor(profesor1);
+
